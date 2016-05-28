@@ -1,0 +1,17 @@
+function [] = PlotFeatures(bbdbn)
+
+a = zeros(1,800);
+for x = 1 : 800,
+    y = ceil(800*rand(1,1));
+    a()=1;
+    y = ceil(800*rand(1,1));
+    a(y)=1;
+    V0 = h2v( bbdbn.rbm{2},  a);
+    V1 = h2v( bbdbn.rbm{1},  V0);
+    createfigure(reshape(V1,28,28))
+    drawnow
+    pause(0.5)
+    close
+    a(x)=0;
+    a(y)=0;
+end
