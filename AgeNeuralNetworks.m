@@ -21,14 +21,16 @@ saved_bbdbn = bbdbn;
 
 %% Age network according to method 1.
 ERRORS_1 = zeros(101,2);
-%{
-for i = 0 : 101,
-    i
-    bbdbn = SynapticLossDBN1(saved_bbdbn, i);
+basedir = '/data2/L/Brain/max/Paper3Data/Data/';
+dirs = {'k_xy0.005k_z0.005', 'k_xy0.015k_z0.015',  'k_xy0.01k_z0.01', ...
+    'k_xy0.02k_z0.02', 'k_xy0.03k_z0.03', 'k_xy0.05k_z0.05', ...
+    'k_xy0.1k_z0.1', 'k_xy0.2k_z0.2', 'k_xy0.5k_z0.5'};
+for i = 1:length(dirs),
+    current_dir = strcat(basedir,dirs{i});
+    bbdbn = SynapticLossDBN1(saved_bbdbn, current_dir);
     ERRORS_1(i+1,1) = CalcErrorRate(bbdbn, TrainImages, TrainLabels);
     ERRORS_1(i+1,2) = CalcErrorRate(bbdbn, TestImages, TestLabels);
 end
-%}
 % Save results.
 x = sprintf('ERRORS_1_%d', num);
 save(x, 'ERRORS_1')
