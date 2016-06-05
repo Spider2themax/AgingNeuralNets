@@ -1,4 +1,4 @@
-function [ERRORS_1, ERRORS_2, ERRORS_3] = AgeNeuralNetworks(num)
+function [ERRORS_1, ERRORS_2, ERRORS_3] = AgeNeuralNetworks(Num)
 
 %{
     This function will take in a num (between 1 and 10) and load a trained
@@ -15,7 +15,7 @@ function [ERRORS_1, ERRORS_2, ERRORS_3] = AgeNeuralNetworks(num)
 
 %% Load data.
 [TrainImages, TrainLabels, TestImages, TestLabels] = mnistread();
-x = sprintf('DBN%d', num);
+x = sprintf('DBN%d', Num);
 load(x)
 saved_bbdbn = bbdbn;
 
@@ -33,11 +33,7 @@ for i = 1:length(dirs),
     ERRORS_1(i,3) = CalculateSynapticLoss(bbdbn);
 end
 % Save results.
-if num == 1,
-    x = sprintf('ERRORS_1_1');
-else
-    x = sprintf('ERRORS_1_%d', num);
-end
+x = sprintf('Results/ERRORS_1_%d', Num);
 save(x, 'ERRORS_1')
 
 %% Age network according to method 2.
@@ -52,11 +48,7 @@ for i = 0 : 101,
     ERRORS_2(i+1,3) = CalculateSynapticLoss(bbdbn);
 end
 % Save results.
-if num == 1,
-    x = sprintf('ERRORS_2_1');
-else
-    x = sprintf('ERRORS_2_%d', num);
-end
+x = sprintf('Results/ERRORS_2_%d', Num);
 save(x, 'ERRORS_2')
 
 %% Age network according to method 3.
@@ -66,12 +58,8 @@ for i = 0 : 101,
     bbdbn = SynapticLossDBN3(saved_bbdbn, i);
     ERRORS_3(i+1,1) = CalcErrorRate(bbdbn, TrainImages, TrainLabels);
     ERRORS_3(i+1,2) = CalcErrorRate(bbdbn, TestImages, TestLabels);
-    ERRORS_1(i+1,3) = CalculateSynapticLoss(bbdbn);
+    ERRORS_3(i+1,3) = CalculateSynapticLoss(bbdbn);
 end
 % Save results.
-if num == 1,
-    x = sprintf('ERRORS_3_1');
-else
-    x = sprintf('ERRORS_3_%d', num);
-end
+x = sprintf('Results/ERRORS_3_%d', Num);
 save(x, 'ERRORS_3')

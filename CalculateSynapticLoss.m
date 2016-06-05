@@ -10,4 +10,4 @@ function syn_loss = CalculateSynapticLoss(bbdbn)
 
 top = sum(sum(bbdbn.rbm{1}.W ~= 0)) + sum(sum(bbdbn.rbm{2}.W ~= 0)) + sum(sum(bbdbn.rbm{3}.W ~= 0));
 bottom = 784*800 + 800*800 + 800*10;
-syn_loss = top/bottom;
+syn_loss = 1 - top/bottom;
